@@ -10,6 +10,11 @@ default:
 	@echo "   header.trena"
 	@echo "   header.cors.trena"
 	@echo "   ranged.content.cors.trena"
+	@echo "   header.cors.trena.vcf"
+	@echo "   ranged.content.cors.trena.vcf"
+	@echo "   "
+	@echo "   trenaTracks.html"
+
 
 header.basic.local:
 	curl -I http://localhost:60050
@@ -58,6 +63,25 @@ ranged.content.cors.trena:
               --output trena.cors.range.out
 	@echo "    "
 	@ls -l trena.cors.range.out
+
+header.cors.trena.vcf:
+	curl -L -H "Access-Control-Request-Method: GET" \
+              -H "Origin: http://hagfish.systemsbiology.net" \
+	--head "https://igv-data.systemsbiology.net/static/ampad/NIA-1898/chr22.vcf.gz"
+
+ranged.content.cors.trena.vcf:
+	curl --range 0-999 -L -H "Access-Control-Request-Method: GET" \
+              -H "Origin: http://hagfish.systemsbiology.net" \
+	"https://igv-data.systemsbiology.net/static/ampad/NIA-1898/chr22.vcf.gz" \
+              --output trena.cors.range.vcf.out
+	@echo "    "
+	@ls -l trena.cors.range.vcf.out
+
+trenaTracks-html:
+	open trenaTracks.html
+
+
+
 
 
 #
