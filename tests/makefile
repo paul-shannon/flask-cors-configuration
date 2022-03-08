@@ -3,8 +3,13 @@ default:
 	@echo "   header.basic.local"
 	@echo "   header.cors.local"
 	@echo "   header.cors.s3"
+	@echo "   "
 	@echo "   content.range.cors.local"
 	@echo "   content.range.cors.s3"
+	@echo "   "
+	@echo "   header.trena"
+	@echo "   header.cors.trena"
+	@echo "   ranged.content.cors.trena"
 
 header.basic.local:
 	curl -I http://localhost:60050
@@ -34,6 +39,25 @@ content.range.cors.s3:
               https://s3.amazonaws.com/igv.org.demo/nstd186.GRCh38.variant_call.vcf.gz \
              --output s3.cors.range.out
 	@ls -l s3.cors.range.out
+
+# -I header
+# -L follow redirects
+header.trena:
+	curl -L -I http://igv-data.systemsbiology.net
+
+
+header.cors.trena:
+	curl -L -H "Access-Control-Request-Method: GET" \
+              -H "Origin: http://hagfish.systemsbiology.net" \
+              --head https://igv-data.systemsbiology.net/static/testFiles/nstd186.GRCh38.variant_call.vcf.gz
+
+ranged.content.cors.trena:
+	curl --range 0-999 -L -H "Access-Control-Request-Method: GET" \
+              -H "Origin: http://hagfish.systemsbiology.net" \
+              https://igv-data.systemsbiology.net/static/testFiles/nstd186.GRCh38.variant_call.vcf.gz \
+              --output trena.cors.range.out
+	@echo "    "
+	@ls -l trena.cors.range.out
 
 
 #
